@@ -1,0 +1,207 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  <link href="{% static 'css/main.css' %}" rel="stylesheet">
+  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/icons/apple-touch-icon.png' %}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/icons/favicon-32x32.png' %}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/icons/favicon-16x16.png' %}">
+  <link rel="manifest" href="{% static 'images/icons/site.webmanifest' %}">
+</head>
+<title>8-Puzzle Solver</title>
+</head>
+
+<body>
+  <header class="p-3">
+    <h1 class="text-center text-uppercase"><img src="{% static 'images/logo/artificial-intelligence-1-custom4.png' %}"
+        alt="logo" width="64" height="64" class="logo" id="logo"> 8-Puzzle Solver</h1>
+  </header>
+
+  <main>
+    <!-- Grid container -->
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col"></div>
+        <div class="col-7 p-sm-5 middle-col">
+          <!-- Reset button row -->
+          <div class="d-flex ms-5 ps-5">
+            <div class="row w-50 m-auto justify-content-end">
+              <button id="reset" name="reset" class="btn btn-secondary w-25 h-25">Reset</button>
+            </div>
+          </div> <!-- Reset button row -->
+          <!-- Random solvable example generator row -->
+          <div class="row row-randomGen mb-4 mt-1">
+            <div class="col">
+              <fieldset class="border p-2">
+                <legend class="w-auto">Generate Random Solvable Example</legend>
+                <label for="defaultGoal">
+                  <input type="radio" name="randGenRadio" id="defaultGoal" value="defaultGoal"> Use default goal
+                  (1,2,3,4,5,6,7,8,0).
+                </label><br>
+                <label for="randomGoal">
+                  <input type="radio" name="randGenRadio" id="randomGoal" value="randomGoal"> Use random goal.
+                </label><br>
+                <div class="row mt-3 justify-content-center">
+                  <button id="generate" name="generate" class="btn btn-secondary w-50 disabled">Generate</button>
+                </div>
+              </fieldset>
+            </div>
+          </div> <!-- Random solvable example generator row -->
+          <!-- Initial/Goal states input row -->
+          <div class="row d-lg-flex">
+            <!-- Initial state input col -->
+            <div class="col mx-md-4 px-md-4 state-col">
+              <div class="row">
+                <div class="col">
+                  <table class="table table-responsive table-bordered text-center state-tbl">
+                    <thead>
+                      <tr>
+                        <th colspan="3">
+                          Initial State
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><textarea id="initial-1" name="initial-row1" rows="1" cols="3" required></textarea></td>
+                        <td><textarea id="initial-2" name="initial-row1" rows="1" cols="3" required></textarea></td>
+                        <td><textarea id="initial-3" name="initial-row1" rows="1" cols="3" required></textarea></td>
+                      </tr>
+                      <tr>
+                        <td><textarea id="initial-4" name="initial-row2" rows="1" cols="3" required></textarea></td>
+                        <td><textarea id="initial-5" name="initial-row2" rows="1" cols="3" required></textarea></td>
+                        <td><textarea id="initial-6" name="initial-row2" rows="1" cols="3" required></textarea></td>
+                      </tr>
+                      <tr>
+                        <td><textarea id="initial-7" name="initial-row3" rows="1" cols="3" required></textarea></td>
+                        <td><textarea id="initial-8" name="initial-row3" rows="1" cols="3" required></textarea></td>
+                        <td><textarea id="initial-9" name="initial-row3" rows="1" cols="3" required></textarea></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div> <!-- Initial state input col -->
+            <!-- Goal state input col -->
+            <div class="col mx-md-4 px-md-4 state-col">
+              <div class="row">
+                <div class="col">
+                  <table class="table table-responsive table-bordered text-center state-tbl">
+                    <thead>
+                      <tr>
+                        <th colspan="3">
+                          Goal State
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><textarea id="goal-1" name="goal-row1" rows="1" cols="3" required></textarea></td>
+                        <td><textarea id="goal-2" name="goal-row1" rows="1" cols="3" required></textarea></td>
+                        <td><textarea id="goal-3" name="goal-row1" rows="1" cols="3" required></textarea></td>
+                      </tr>
+                      <tr>
+                        <td><textarea id="goal-4" name="goal-row2" rows="1" cols="3" required></textarea></td>
+                        <td><textarea id="goal-5" name="goal-row2" rows="1" cols="3" required></textarea></td>
+                        <td><textarea id="goal-6" name="goal-row2" rows="1" cols="3" required></textarea></td>
+                      </tr>
+                      <tr>
+                        <td><textarea id="goal-7" name="goal-row3" rows="1" cols="3" required></textarea></td>
+                        <td><textarea id="goal-8" name="goal-row3" rows="1" cols="3" required></textarea></td>
+                        <td><textarea id="goal-9" name="goal-row3" rows="1" cols="3" required></textarea></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div> <!-- Goal state input col -->
+          </div> <!-- Initial/Goal states input row -->
+          <!-- Solve button row -->
+          <div class="row my-4">
+            <div class="col"></div>
+            <div class="col-6">
+              <div class="row justify-content-center">
+                <button id="solve" name="solve" class="btn btn-primary w-100">
+                  <span class="spinner-border spinner-border-sm visually-hidden" role="status"
+                    aria-hidden="true"></span>
+                  <span id="solveBtn-text">Solve</span>
+                </button>
+              </div>
+            </div>
+            <div class="col"></div>
+          </div> <!-- Solve button row -->
+          <!-- Result row -->
+          <div class="row my-4 mx-2">
+            <div id="result" class="text-center"></div>
+          </div> <!-- Result row -->
+        </div>
+        <div class="col"></div>
+      </div>
+      <button type="button" class="btn btn-secondary btn-floating btn-lg" id="btn-back-to-top">
+        <i class="fa fa-arrow-up"></i>
+      </button>
+    </div> <!-- Grid container -->
+  </main>
+
+  <footer class="text-center">
+    <!-- Grid container -->
+    <div class="container-fluid pt-4 px-0">
+      <h5 class="text-uppercase"><img src="{% static 'images/logo/artificial-intelligence-1-custom4.png' %}" alt="logo"
+          width="34" height="34" class="logo" id="logo"> 8-Puzzle Solver</h5>
+      <div class="d-grid justify-content-center">
+        <p>Artificial Intelligence (BAI501), S22 Homework</p>
+        <table class="students-tbl table table-responsive table-borderless m-0 w-100">
+          <tr>
+            <th colspan="2" class="p-1">
+              By Students:
+            </th>
+          </tr>
+          <tr>
+            <td class="p-1">
+              Mohamad Al Moghrabi (mohamad_109832)
+            </td>
+            <td class="p-1">
+              Ayat Mriri (ayat_109183)
+            </td>
+          </tr>
+          <tr>
+            <td class="p-1">
+              Hiba Mouhammad (hiba_114565)
+            </td>
+            <td class="p-1">
+              Ruba Hubo (ruba_108272)
+            </td>
+          </tr>
+        </table><br>
+        Supervised By: Dr. Bassel AlKhatib <br>
+        Syrian Virtual University, Damascus, Syria
+        </p>
+      </div>
+      <!-- Copyright -->
+      <div class="copyright text-center">
+        <div class="pt-3 pb-2">
+          © 2022 Copyright. All rights reserved.
+        </div>
+        <div class="icons-attribution pb-2"> Icons made by <a href="https://www.flaticon.com/authors/monkik"
+            title="monkik" target="_blank">monkik</a> from <a href="https://www.flaticon.com/" title="Flaticon"
+            target="_blank">www.flaticon.com</a>
+        </div>
+      </div><!-- Copyright -->
+    </div> <!-- Grid container -->
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/55ad138abf.js" crossorigin="anonymous"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>
